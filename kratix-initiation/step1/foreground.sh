@@ -1,19 +1,12 @@
-echo "kratix training v0.1.9"
+echo "kratix training v0.1.10"
 while [ ! -f /tmp/kratixusercreated ]; do sleep 1; done
 echo "Switching to kratixuser..."
 su - kratixuser
-#install brew: 
-sudo -u kratixuser sudo -u kratixuser NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-if [ $? -eq 0 ]; then
-    touch /tmp/brewinstalled
-else
-    echo "failed" > /tmp/brewinstalled
-    exit 1
-fi
-echo >> /home/kratixuser/.bashrc
-echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/kratixuser/.bashrc
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# Wait for brew to be installed
+while [ ! -f /tmp/brewinstalled ]; do sleep 1; done
+echo "Brew installed successfully."
+
 #install kind : 
 # For AMD64 / x86_64
 brew install kind

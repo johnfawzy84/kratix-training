@@ -12,6 +12,21 @@ sudo -i -u kratixuser
 cd $HOME
 touch /tmp/kratixusercreated
 
+
+#install brew: 
+sudo -u kratixuser sudo -u kratixuser NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+if [ $? -eq 0 ]; then
+    touch /tmp/brewinstalled
+else
+    echo "failed" > /tmp/brewinstalled
+    exit 1
+fi
+echo >> /home/kratixuser/.bashrc
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/kratixuser/.bashrc
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+
 #install docker :
 sudo apt-get remove docker docker-engine docker.io containerd runc
 sudo apt-get update
