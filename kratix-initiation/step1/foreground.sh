@@ -3,7 +3,7 @@ while [ ! -f /tmp/kratixusercreated ]; do sleep 1; done
 echo "Switching to kratixuser..."
 su - kratixuser
 #install brew: 
-sudo -u kratixuser sudo -u kratixuser NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+sudo -u kratixuser sudo -u kratixuser NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 if [ $? -eq 0 ]; then
     touch /tmp/brewinstalled
