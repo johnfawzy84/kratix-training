@@ -6,13 +6,26 @@ fi
 # Switch to the new user for the rest of the script
 sudo -i -u kratixuser
 cd $HOME
-
+touch /tmp/kratixusercreated
 #install brew: 
-su - kratixuser "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+sudo -u kratixuser /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 #install kind : 
 # For AMD64 / x86_64
 brew install kind
+#install kubectl
+brew install kubectl
+
+#install yq
+brew install yq
+
+#install minio
+brew install minio-mc
+
+#install git
+brew install git
+
+touch /tmp/brewtoolsinstalled
 
 #install docker :
 sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -26,17 +39,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
-#install kubectl
-brew install kubectl
-
-#install yq
-brew install yq
-
-#install minio
-brew install minio-mc
-
-#install git
-brew install git
+touch /tmp/dockerinstalled
 
 #preparation : 
 git clone https://github.com/syntasso/kratix
@@ -58,7 +61,7 @@ kind create cluster \
 export PLATFORM="kind-platform"
 export WORKER="kind-worker"
 
-touch /tmp/kindclusterfinished
+touch /tmp/kindclusterscreated
 # Install cert-manager
 kubectl apply --filename https://github.com/cert-manager/cert-manager/releases/download/v1.15.0/cert-manager.yaml
 # Wait for cert-manager pods to be ready
@@ -69,3 +72,4 @@ kubectl -n cert-manager wait --for=condition=Available --timeout=120s deployment
 kubectl apply --filename config/samples/minio-install.yaml
 
 kubectl apply --filename https://github.com/syntasso/kratix/releases/latest/download/kratix.yaml
+touch /tmp/kratixinstalled
