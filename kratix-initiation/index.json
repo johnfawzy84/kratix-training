@@ -1,0 +1,32 @@
+{
+  "title": "Kratix Orchestrator Training",
+  "description": "Basic Workshop for learning Kratix",
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },
+    "steps": [
+      {
+        "title": "Check Kratix Installation",
+        "text": "step1/text.md",
+        "foreground": "step1/foreground.sh",
+        "background": "step1/background.sh",
+        "verify": "step1/verify.sh"
+      },
+      {
+        "title": "Nothing",
+        "text": "step2/text.md",
+        "verify": "step2/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  },
+  "interface": {
+    "layout": "ide"
+  }
+}

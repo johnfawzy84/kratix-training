@@ -1,0 +1,1 @@
+# Kratix basic training and workshop
