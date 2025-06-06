@@ -1,4 +1,5 @@
-echo "training v0.1.0"
+echo "training v0.1.1"
+su - kratixuser
 echo "Starting step1 foreground script..."
 echo waiting for step1-background-script to finish
 while [ ! -f /tmp/kindclusterfinished ]; do sleep 1; done
