@@ -3,24 +3,14 @@ while [ ! -f /tmp/kratixusercreated ]; do sleep 1; done
 echo "Switching to kratixuser..."
 su - kratixuser
 
+
+
+#install tools with brew:
+echo "Installing required tools with brew..."
+sudo -u kratixuser sudo -u kratixuser NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" & echo >> /home/kratixuser/.bashrc & echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/kratixuser/.bashrc & eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" & brew install kind kubectl yq minio-mc git & touch /tmp/brewinstalled
 # Wait for brew to be installed
 while [ ! -f /tmp/brewinstalled ]; do sleep 1; done
 echo "Brew installed successfully."
-
-#install kind : 
-# For AMD64 / x86_64
-brew install kind
-#install kubectl
-brew install kubectl
-
-#install yq
-brew install yq
-
-#install minio
-brew install minio-mc
-
-#install git
-brew install git
 
 #preparation : 
 git clone https://github.com/syntasso/kratix
