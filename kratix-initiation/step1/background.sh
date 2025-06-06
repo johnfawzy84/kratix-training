@@ -4,6 +4,8 @@ if ! id "kratixuser" &>/dev/null; then
 fi
 
 # Switch to the new user for the rest of the script
+# Add kratixuser to the sudo group to allow sudo usage
+sudo usermod -aG sudo kratixuser
 sudo -i -u kratixuser
 cd $HOME
 touch /tmp/kratixusercreated
