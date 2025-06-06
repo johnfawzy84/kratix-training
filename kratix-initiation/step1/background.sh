@@ -1,3 +1,12 @@
+# Create a new user 'kratixuser' if it doesn't exist
+if ! id "kratixuser" &>/dev/null; then
+    sudo useradd -m -s /bin/bash kratixuser
+fi
+
+# Switch to the new user for the rest of the script
+sudo -i -u kratixuser bash <<'EOF'
+cd $HOME
+EOF
 #install brew: 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
