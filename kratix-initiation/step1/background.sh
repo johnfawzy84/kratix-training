@@ -45,6 +45,7 @@ touch /tmp/dockerinstalled
 #preparation : 
 git clone https://github.com/syntasso/kratix
 cd kratix
+touch /tmp/kratixcloned
 # make sure there are no clusters running
 kind delete clusters --all
 
