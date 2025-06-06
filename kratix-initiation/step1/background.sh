@@ -6,7 +6,7 @@ fi
 # Switch to the new user for the rest of the script
 sudo -i -u kratixuser bash <<'EOF'
 cd $HOME
-EOF
+
 #install brew: 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -69,3 +69,4 @@ kubectl -n cert-manager wait --for=condition=Available --timeout=120s deployment
 kubectl apply --filename config/samples/minio-install.yaml
 
 kubectl apply --filename https://github.com/syntasso/kratix/releases/latest/download/kratix.yaml
+EOF
