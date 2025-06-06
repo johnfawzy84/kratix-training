@@ -12,7 +12,12 @@ touch /tmp/kratixusercreated
 #install brew: 
 sudo -u kratixuser /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-touch /tmp/brewinstalled
+if [ $? -eq 0 ]; then
+    touch /tmp/brewinstalled
+else
+    echo "failed to install brew"
+    exit 1
+fi
 #install kind : 
 # For AMD64 / x86_64
 brew install kind
