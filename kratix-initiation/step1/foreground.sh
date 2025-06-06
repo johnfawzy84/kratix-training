@@ -1,4 +1,4 @@
-echo "kratix training v0.1.7"
+echo "kratix training v0.1.8"
 while [ ! -f /tmp/kratixusercreated ]; do sleep 1; done
 echo "Switching to kratixuser..."
 su - kratixuser

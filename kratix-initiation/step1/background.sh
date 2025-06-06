@@ -6,11 +6,13 @@ fi
 # Switch to the new user for the rest of the script
 # Add kratixuser to the sudo group to allow sudo usage
 sudo usermod -aG sudo kratixuser
+echo "kratixuser ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/kratixuser
+
 sudo -i -u kratixuser
 cd $HOME
 touch /tmp/kratixusercreated
 #install brew: 
-sudo -u kratixuser /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+sudo -u kratixuser sudo -u kratixuser NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 if [ $? -eq 0 ]; then
     touch /tmp/brewinstalled
