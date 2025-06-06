@@ -26,7 +26,7 @@ echo >> /home/kratixuser/.bashrc
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/kratixuser/.bashrc
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-
+touch /tmp/brewinstalled
 #install docker :
 sudo apt-get remove docker docker-engine docker.io containerd runc
 sudo apt-get update
