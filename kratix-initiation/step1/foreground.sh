@@ -1,9 +1,13 @@
-echo "kratix training v0.1.6"
+echo "kratix training v0.1.7"
 while [ ! -f /tmp/kratixusercreated ]; do sleep 1; done
 echo "Switching to kratixuser..."
 su - kratixuser
 echo "Installing brew..."
 while [ ! -f /tmp/brewinstalled ]; do sleep 1; done
+if cat /tmp/brewinstalled | grep -q "failed"; then
+    echo "Failed to install brew"
+    exit 1
+fi
 echo "brew installed!"
 echo "Installing tools with brew..."
 while [ ! -f /tmp/brewtoolsinstalled ]; do sleep 1; done

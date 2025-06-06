@@ -15,7 +15,7 @@ sudo -u kratixuser /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/
 if [ $? -eq 0 ]; then
     touch /tmp/brewinstalled
 else
-    echo "failed to install brew"
+    echo "failed" > /tmp/brewinstalled
     exit 1
 fi
 #install kind : 
