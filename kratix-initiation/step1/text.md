@@ -1,12 +1,4 @@
-verify the following installation of kratix 
-1. Minio 
+## Prerequistes
+Install the following tools by simply running the following command : 
 
-```sh
-kubectl --context $PLATFORM get deployments --namespace kratix-platform-system
-```
-
-2. forward the output of the last command for verification
-
-```sh
-kubectl --context $PLATFORM get deployments --namespace kratix-platform-system > /tmp/minio_output
-```
+`brew install kind kubectl yq minio-mc`{{exec}}
