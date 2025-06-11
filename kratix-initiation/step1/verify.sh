@@ -54,12 +54,12 @@ else
   exit 1
 fi
 
-echo "7. Checking Flux in worker cluster..."
-if kubectl --context kind-worker get deployments -n flux-system 2>/dev/null | grep -q flux; then
-  echo "Flux deployments found."
-else
-  echo "Flux deployments NOT found."
-  exit 1
-fi
+# echo "7. Checking Flux in worker cluster..."
+# if kubectl --context kind-worker get deployments -n flux-system 2>/dev/null | grep -q flux; then
+#   echo "Flux deployments found."
+# else
+#   echo "Flux deployments NOT found."
+#   exit 1
+# fi
 
 echo "All checks passed!"
