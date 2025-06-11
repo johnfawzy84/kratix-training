@@ -30,3 +30,6 @@ su - kratixuser
 mkdir /home/kratixuser/homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C /home/kratixuser/homebrew
 echo 'export PATH="$HOME/homebrew/bin:$PATH"' >> /home/kratixuser/.bashrc
 export PATH="$HOME/homebrew/bin:$PATH"
+sudo usermod -aG docker kratixuser
+newgrp docker
+
