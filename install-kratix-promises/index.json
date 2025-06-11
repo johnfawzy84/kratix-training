@@ -12,11 +12,6 @@
         "foreground": "step1/foreground.sh",
         "background": "step1/background.sh",
         "verify": "step1/verify.sh"
-      },
-      {
-        "title": "Nothing",
-        "text": "step2/text.md",
-        "verify": "step2/verify.sh"
       }
     ],
     "finish": {

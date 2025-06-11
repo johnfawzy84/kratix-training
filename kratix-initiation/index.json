@@ -7,14 +7,14 @@
     },
     "steps": [
       {
-        "title": "Kratix Installation",
+        "title": "Install pre-requisites",
         "text": "step1/text.md",
         "foreground": "step1/foreground.sh",
         "background": "step1/background.sh",
         "verify": "step1/verify.sh"
       },
       {
-        "title": "Nothing",
+        "title": "Install Kratix",
         "text": "step2/text.md",
         "verify": "step2/verify.sh"
       }
