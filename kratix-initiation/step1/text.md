@@ -1,4 +1,5 @@
 ## Prerequistes
+This installs the pre-requists described [here](https://docs.kratix.io/workshop/part-0/intro)
 0. Make sure that the `kratixuser` is in the `docker` group so that the `docker` command works
 
     `newgrp docker`{{exec}}
@@ -53,7 +54,7 @@
 
     ```sh
     kubectl --context $PLATFORM get pods --namespace cert-manager
-    ```
+    ```{{copy}}
 
 8. install minio repo
 
@@ -72,3 +73,4 @@
     ```sh
     kubectl --context $WORKER get deployments --namespace flux-system --watch
     ```{{exec}}
+
