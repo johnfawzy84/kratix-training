@@ -10,9 +10,20 @@ apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin do
 groupadd docker
 # while [ ! -f /tmp/dockerinstalled ]; do sleep 1; done
 echo "Docker installed successfully."
-while [ ! -f /tmp/kratixusercreated ]; do sleep 1; done
+
+# Create a new user 'kratixuser' if it doesn't exist
+if ! id "kratixuser" &>/dev/null; then
+    useradd -m -s /bin/bash kratixuser
+fi
+
+# Switch to the new user for the rest of the script
+# Add kratixuser to the sudo group to allow sudo usage
+usermod -aG sudo kratixuser
+echo "kratixuser ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/kratixuser
+mkdir /home/kratixuser/homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C /home/kratixuser/homebrew
+
+
 echo "Switching to kratixuser..."
 su - kratixuser
-sudo -u kratixuser mkdir homebrew && sudo -u kratixuser curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
 echo 'export PATH="$HOME/homebrew/bin:$PATH"' >> /home/kratixuser/.bashrc
 export PATH="$HOME/homebrew/bin:$PATH"
