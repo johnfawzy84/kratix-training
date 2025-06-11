@@ -1,5 +1,4 @@
 echo "kratix training v0.1.10"
-apt-get remove docker docker-engine docker.io containerd runc
 apt-get update -y
 apt-get install -y ca-certificates curl gnupg lsb-release 
 mkdir -p /etc/apt/keyrings

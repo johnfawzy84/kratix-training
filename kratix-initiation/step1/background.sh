@@ -14,5 +14,3 @@ touch /tmp/kratixusercreated
 
 while [ ! -f /tmp/homebrewinstalled ]; do sleep 1; done
 echo "homebrew installed..."
-sudo -u kratixuser brew install kind kubectl yq minio-mc
-touch /tmp/brewtoolsinstalled
