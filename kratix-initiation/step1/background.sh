@@ -1,1 +1,1 @@
-echo "OK!"
+while [ ! -f /tmp/brewinstalled ]; do sleep 1; done

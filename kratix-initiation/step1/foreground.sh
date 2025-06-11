@@ -26,3 +26,4 @@ echo "Switching to kratixuser..."
 su - kratixuser
 echo 'export PATH="$HOME/homebrew/bin:$PATH"' >> /home/kratixuser/.bashrc
 export PATH="$HOME/homebrew/bin:$PATH"
+touch /tmp/brewinstalled
