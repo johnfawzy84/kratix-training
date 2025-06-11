@@ -7,7 +7,7 @@
     },
     "steps": [
       {
-        "title": "Check Kratix Installation",
+        "title": "Kratix Installation",
         "text": "step1/text.md",
         "foreground": "step1/foreground.sh",
         "background": "step1/background.sh",
