@@ -10,7 +10,7 @@
 2. clone kratix repo 
 
     ```sh 
-    git clone https://github.com/syntasso/kratixs
+    git clone https://github.com/syntasso/kratix
     cd kratix
     ```{{exec}}
 
@@ -71,4 +71,4 @@
 
     ```sh
     kubectl --context $WORKER get deployments --namespace flux-system --watch
-    ```{{exec}}sss
+    ```{{exec}}
