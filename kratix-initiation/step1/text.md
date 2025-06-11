@@ -1,5 +1,7 @@
 ## Prerequistes
+
 This installs the pre-requists described [here](https://docs.kratix.io/workshop/part-0/intro)
+
 0. Make sure that the `kratixuser` is in the `docker` group so that the `docker` command works
 
     `newgrp docker`{{exec}}
