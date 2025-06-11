@@ -1,3 +1,4 @@
-while [ ! -f /tmp/kratixinstalled ]; do sleep 1; done
-echo "kratix installed successfully."
-cat /tmp/kratix.logs
+git clone https://github.com/syntasso/kratix.git
+cd kratix
+./quick-start.sh 
+echo "Kratix installation completed successfully."
