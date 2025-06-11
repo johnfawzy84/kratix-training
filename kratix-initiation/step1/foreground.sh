@@ -21,7 +21,7 @@ fi
 
 # Switch to the new user for the rest of the script
 # Add kratixuser to the sudo group to allow sudo usage
-usermod -aG sudo kratixuser
+usermod -aG sudo docker kratixuser
 echo "kratixuser ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/kratixuser
 newgrp docker
 
@@ -30,6 +30,5 @@ su - kratixuser
 mkdir /home/kratixuser/homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C /home/kratixuser/homebrew
 echo 'export PATH="$HOME/homebrew/bin:$PATH"' >> /home/kratixuser/.bashrc
 export PATH="$HOME/homebrew/bin:$PATH"
-sudo usermod -aG docker kratixuser
 newgrp docker
 
