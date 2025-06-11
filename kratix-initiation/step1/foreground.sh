@@ -1,13 +1,17 @@
 echo "kratix training v0.1.10"
 while [ ! -f /tmp/installcacertificates ]; do sleep 1; done
-echo "ca-certificates installed successfully."
-mkdir -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt-get update -y
-apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-groupadd docker
+# echo "ca-certificates installed successfully."
+# mkdir -p /etc/apt/keyrings
+# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+# echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# apt-get update -y
+# apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# groupadd docker
 # while [ ! -f /tmp/dockerinstalled ]; do sleep 1; done
+if ! command -v docker &> /dev/null; then
+    echo "Docker installation failed or docker command not found."
+    exit 1
+fi
 echo "Docker installed successfully."
 
 # Create a new user 'kratixuser' if it doesn't exist
