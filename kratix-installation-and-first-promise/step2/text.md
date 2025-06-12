@@ -56,18 +56,22 @@ this is the installation described [here](https://docs.kratix.io/workshop/instal
     EOF
     ```{{exec}}
 
-    check: 
-
-    ```sh
-    mc ls -r kind
-    ```{{exec}}
-
-    ```sh
-    mc cat kind/kratix/worker-cluster/dependencies/kratix-canary-namespace.yaml
-    ```{{exec}}
 
 14. check
 
     ```sh
     kubectl --context $WORKER get namespace kratix-worker-system
     ```{{exec}}
+
+
+15. Extra checks : 
+    
+    - open `k9s` in the console
+    - check the health/logs of `source-control` deployment in `flux-system` namespace
+    - check the health/logs of `kustomization` deployment in `flux-system` namespace
+    - check the health/logs of `buckets` resources
+    - check the health/logs of `kustomization` resources
+
+
+    !!!INFO!!!
+    CONGRATULATIONS! now you have Kratix up and running, let's install some promises!

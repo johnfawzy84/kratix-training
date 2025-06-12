@@ -2,6 +2,10 @@
 
 This guide will help you set up your environment for the Kratix workshop, following the instructions described [here](https://docs.kratix.io/workshop/part-0/intro). Each step below includes context and reasoning to help you understand why it is necessary.
 
+    !!!WARNING!!!
+    The following steps will be executed automatically for you. 
+    You don't have to install the tools and the pre-requistis by yourself.
+
 0. **Ensure `kratixuser` is in the `docker` group**
 
     Docker requires users to have the appropriate permissions to run containers. By adding `kratixuser` to the `docker` group, you ensure that Docker commands can be executed without needing `sudo`.
