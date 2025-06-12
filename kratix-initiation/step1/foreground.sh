@@ -45,4 +45,12 @@ kind create cluster \
 export PLATFORM="kind-platform"
 export WORKER="kubernetes-admin@kubernetes"
 kubectl --context $PLATFORM apply --filename https://github.com/cert-manager/cert-manager/releases/download/v1.15.0/cert-manager.yaml
-kubectl --context $PLATFORM get pods --namespace cert-manager --watch
+#kubectl --context $PLATFORM get pods --namespace cert-manager --watch
+echo "Waiting for cert-manager pods to be ready..."
+kubectl --context $PLATFORM wait --for=condition=Available --timeout=180s deployment/cert-manager -n cert-manager
+kubectl --context $PLATFORM wait --for=condition=Available --timeout=180s deployment/cert-manager-webhook -n cert-manager
+kubectl --context $PLATFORM wait --for=condition=Available --timeout=180s deployment/cert-manager-cainjector -n cert-manager
+echo "cert-manager is ready."
+kubectl --context $PLATFORM apply --filename config/samples/minio-install.yaml
+./scripts/install-gitops --context $WORKER --path worker-cluster -k training
+kubectl --context $WORKER get deployments --namespace flux-system --watch
