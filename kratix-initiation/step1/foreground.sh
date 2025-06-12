@@ -32,17 +32,13 @@ mkdir /home/kratixuser/homebrew && curl -L https://github.com/Homebrew/brew/tarb
 echo 'export PATH="$HOME/homebrew/bin:$PATH"' >> /home/kratixuser/.bashrc
 export PATH="$HOME/homebrew/bin:$PATH"
 export KUBECONFIG=/etc/kubernetes/admin.conf
-brew install kind yq minio-mc k9s
+brew install yq minio-mc k9s
 exit
 exit
 export PATH="/home/kratixuser/homebrew/bin:$PATH"
 git clone https://github.com/syntasso/kratix
 cd kratix
-kind create cluster \
-    --name platform \
-    --image kindest/node:v1.27.3 \
-    --config config/samples/kind-platform-config.yaml
-export PLATFORM="kind-platform"
+export PLATFORM="kubernetes-admin@kubernetes"
 export WORKER="kubernetes-admin@kubernetes"
 kubectl --context $PLATFORM apply --filename https://github.com/cert-manager/cert-manager/releases/download/v1.15.0/cert-manager.yaml
 #kubectl --context $PLATFORM get pods --namespace cert-manager --watch
