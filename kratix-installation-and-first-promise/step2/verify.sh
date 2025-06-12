@@ -1,1 +1,2 @@
-return 0
+echo "done" > /tmp/installcacertificates
+stat /tmp/installcacertificates

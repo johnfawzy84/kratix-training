@@ -1,113 +1,123 @@
-## Prerequisites
+## Automated Environment Setup for Kratix Workshop
 
-This guide will help you set up your environment for the Kratix workshop, following the instructions described [here](https://docs.kratix.io/workshop/part-0/intro). Each step below includes context and reasoning to help you understand why it is necessary.
+This guide summarizes the automated steps performed by the setup script to prepare your environment for the Kratix workshop. The process ensures all prerequisites are met, tools are installed, and the Kratix platform is ready for use. You do **not** need to run these steps manually; they are executed for you.
 
-    !!!WARNING!!!
-    The following steps will be executed automatically for you. 
-    You don't have to install the tools and the pre-requistis by yourself.
+---
 
-0. **Ensure `kratixuser` is in the `docker` group**
+### 1. Docker Verification
 
-    Docker requires users to have the appropriate permissions to run containers. By adding `kratixuser` to the `docker` group, you ensure that Docker commands can be executed without needing `sudo`.
+The script first checks if [Docker](https://www.docker.com/) is installed and available. Docker is required to run containerized workloads and Kubernetes clusters via Kind.
 
-    `newgrp docker`{{exec}}
+- **Motivation:** Ensures the environment can run containers and Kubernetes clusters.
+- **Reference:** [Install Docker](https://docs.docker.com/get-docker/)
 
-1. **Install required tools**
+---
 
-    The following tools are essential for managing Kubernetes clusters and related resources:
-    - `kind`: Used to run local Kubernetes clusters using Docker containers.
-    - `kubectl`: The Kubernetes command-line tool for interacting with clusters.
-    - `yq`: A portable command-line YAML processor, useful for editing configuration files.
-    - `minio-mc`: The MinIO Client, used for interacting with MinIO object storage.
-    - `k9s`: A terminal UI to interact with your Kubernetes clusters.
+### 2. Kubernetes Admin Configuration
 
-    Installing these tools ensures you have all the utilities needed for the workshop.
+The script adjusts permissions on `/etc/kubernetes/admin.conf` to ensure it is readable and writable. This file contains credentials and configuration for accessing the Kubernetes cluster as an admin.
 
-    `brew install kind yq minio-mc k9s`{{exec}}
+- **Motivation:** Allows all necessary users and processes to interact with the Kubernetes cluster.
 
-2. **Clone the Kratix repository**
+---
 
-    The Kratix repository contains all the configuration files, scripts, and resources required for the workshop. Cloning it locally allows you to access and modify these files as needed.
+### 3. User Setup: `kratixuser`
 
-    ```sh 
-    git clone https://github.com/syntasso/kratix
-    cd kratix
-    ```{{exec}}
+A dedicated user `kratixuser` is created (if it does not exist) and added to both the `sudo` and `docker` groups.
 
-3. **Create the platform cluster using Kind**
+- **Motivation:** Provides a non-root user with the necessary privileges to run Docker and administrative commands without `sudo` password prompts.
+- **Reference:** [Linux User Management](https://www.cyberciti.biz/faq/howto-add-remove-user-account/)
 
-    The platform cluster acts as the control plane for Kratix, managing resources and orchestrating workloads. Using Kind (Kubernetes in Docker), you can quickly spin up a local Kubernetes cluster for this purpose.
+---
 
-    Before creating the cluster, ensure there are no existing Kind clusters running to avoid conflicts.
+### 4. Homebrew Installation
 
-    ```sh
-    # make sure there are no clusters running
-    kind delete clusters --all
+[Homebrew](https://brew.sh/) is installed for `kratixuser` to manage and install required CLI tools.
 
-    kind create cluster \
-        --name platform \
-        --image kindest/node:v1.27.3 \
-        --config config/samples/kind-platform-config.yaml
-    ```{{exec}}
+- **Motivation:** Simplifies the installation of cross-platform CLI tools.
 
-4. **Create the worker cluster using Kind**
+---
 
-    The worker cluster is where workloads will be scheduled and run. Like the platform cluster, it is created using Kind, but with a different configuration to distinguish it as a worker.
+### 5. CLI Tools Installation
 
-    ```sh
-    # make sure there are no clusters running
-    kind create cluster \
-        --name worker \
-        --image kindest/node:v1.27.3 \
-        --config config/samples/kind-worker-config.yaml
-    ```{{exec}}
+The following tools are installed via Homebrew:
 
-5. **Export environment variables for cluster contexts**
+- [`yq`](https://github.com/mikefarah/yq): YAML processor for configuration management.
+- [`minio-mc`](https://min.io/docs/minio/linux/reference/minio-mc.html): MinIO client for interacting with S3-compatible storage.
+- [`k9s`](https://k9scli.io/): Terminal UI for managing Kubernetes clusters.
 
-    Setting the `PLATFORM` and `WORKER` environment variables makes it easier to reference the correct Kubernetes contexts in subsequent commands, reducing the risk of applying changes to the wrong cluster.
+- **Motivation:** These tools are essential for interacting with Kubernetes and MinIO during the workshop.
 
-    ```sh
-    export PLATFORM="kind-platform"
-    export WORKER="kubernetes-admin@kubernetes"
-    ```{{exec}}
+---
 
-6. **Install cert-manager on the platform cluster**
+### 6. Kratix Repository Cloning
 
-    Cert-manager is a Kubernetes add-on to automate the management and issuance of TLS certificates. Kratix relies on cert-manager for secure communication and certificate management.
+The [Kratix repository](https://github.com/syntasso/kratix) is cloned to provide all configuration files, scripts, and resources needed for the workshop.
 
-    ```sh
-    kubectl --context $PLATFORM apply --filename https://github.com/cert-manager/cert-manager/releases/download/v1.15.0/cert-manager.yaml
-    ```{{exec}}
+- **Motivation:** Ensures access to the latest Kratix resources and scripts.
 
-7. **Verify cert-manager installation**
+---
 
-    Checking the cert-manager pods ensures that the installation was successful and that the components are running as expected.
+### 7. Environment Variables
 
-    ```sh
-    kubectl --context $PLATFORM get pods --namespace cert-manager
-    ```{{copy}}
+The script sets environment variables for Kubernetes contexts:
 
-8. **Install MinIO on the platform cluster**
+- `PLATFORM`: The admin context for the platform cluster.
+- `WORKER`: The admin context for the worker cluster.
 
-    MinIO provides S3-compatible object storage, which is used by Kratix for storing artifacts and state. Installing MinIO ensures that Kratix has the storage backend it needs.
+- **Motivation:** Simplifies referencing the correct Kubernetes clusters in subsequent commands.
 
-    ```sh
-    kubectl --context $PLATFORM apply --filename config/samples/minio-install.yaml
-    ```{{exec}}
+---
 
-9. **Install worker cluster prerequisites**
+### 8. Cert-Manager Installation
 
-    The worker cluster needs to be prepared with GitOps tooling (such as Flux) to enable automated deployment and management of resources. The provided script sets up these prerequisites.
+[cert-manager](https://cert-manager.io/) is installed on the platform cluster to automate the management and issuance of TLS certificates.
 
-    ```sh
-    ./scripts/install-gitops --context $WORKER --path worker-cluster
-    ```{{exec}}
+- **Motivation:** Enables secure communication and certificate management for Kratix components.
 
-10. **Wait for Flux to start on the worker cluster**
+---
 
-    Monitoring the Flux deployments ensures that the GitOps tooling is up and running before proceeding with further steps.
+### 9. MinIO Installation
 
-    ```sh
-    kubectl --context $WORKER get deployments --namespace flux-system --watch
-    ```{{exec}}
+[MinIO](https://min.io/) is deployed on the platform cluster to provide S3-compatible object storage for Kratix.
+
+- **Motivation:** Supplies a storage backend for Kratix artifacts and state.
+
+---
+
+### 10. GitOps Tooling Installation
+
+The script runs the Kratix-provided `install-gitops` script to set up [Flux](https://fluxcd.io/) and other GitOps tooling on the worker cluster.
+
+- **Motivation:** Enables automated deployment and management of resources via GitOps practices.
+
+---
+
+### 11. Flux System Readiness
+
+The script waits for all Flux system components (helm-controller, kustomize-controller, notification-controller, source-controller) to become available.
+
+- **Motivation:** Ensures the GitOps system is fully operational before proceeding.
+
+---
+
+### 12. MinIO Bucket Endpoint Correction
+
+Due to a known issue in the upstream `install-gitops` script, the MinIO bucket endpoint may be set to an incorrect IP. The script:
+
+- Extracts the correct cluster IP from the Kubernetes control plane endpoint.
+- Patches the MinIO Bucket resource to update the endpoint with the correct IP and port.
+
+- **Motivation:** Ensures Kratix components can reliably access the MinIO storage backend.
+
+---
+
+### 13. Completion Signal
+
+A file `/tmp/step1finished` is created to signal that the setup process has completed successfully.
+
+---
+
+**Summary:**  
+This automated process ensures your environment is fully prepared for the Kratix workshop, with all dependencies installed, clusters configured, and known issues addressed. For more details on Kratix, visit the [official documentation](https://kratix.io/docs/).
 
