@@ -53,4 +53,10 @@ kubectl --context $PLATFORM wait --for=condition=Available --timeout=180s deploy
 echo "cert-manager is ready."
 kubectl --context $PLATFORM apply --filename config/samples/minio-install.yaml
 ./scripts/install-gitops --context $WORKER --path worker-cluster -k training
-kubectl --context $WORKER get deployments --namespace flux-system --watch
+echo "Waiting for Flux system to be up and running..."
+kubectl --context $PLATFORM -n flux-system wait --for=condition=Available --timeout=180s deployment/helm-controller
+kubectl --context $PLATFORM -n flux-system wait --for=condition=Available --timeout=180s deployment/kustomize-controller
+kubectl --context $PLATFORM -n flux-system wait --for=condition=Available --timeout=180s deployment/notification-controller
+kubectl --context $PLATFORM -n flux-system wait --for=condition=Available --timeout=180s deployment/source-controller
+echo "Flux system is ready."
+touch /tmp/step1finished
