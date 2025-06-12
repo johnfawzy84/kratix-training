@@ -58,13 +58,21 @@ echo "Flux system is ready."
 
 # --- Fix MinIO Bucket IP if patch_kind_networking set it incorrectly ---
 
-# Get the correct ClusterIP of the minio service in the default namespace
-MINIO_IP=$(kubectl get svc minio -o jsonpath='{.spec.clusterIP}' || echo "")
+# Extract the cluster IP from the Kubernetes control plane endpoint
+MINIO_IP=$(kubectl cluster-info | grep 'Kubernetes control plane' | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | head -n1)
 
 if [ -n "$MINIO_IP" ]; then
   echo "Patching Bucket resource with correct MinIO IP: $MINIO_IP"
-  # Patch the Bucket resource (adjust name/namespace if needed)
-  kubectl patch bucket minio-bucket --type='json' -p="[{\"op\": \"replace\", \"path\": \"/spec/endpoint\", \"value\": \"http://$MINIO_IP:9000\"}]" || echo "Failed to patch Bucket resource"
+  # Get the current endpoint value (assumes default namespace and resource name)
+  CURRENT_ENDPOINT=$(kubectl get bucket kratix -o jsonpath='{.spec.endpoint}' -n flux-system  2>/dev/null)
+  if [[ "$CURRENT_ENDPOINT" =~ ^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+):([0-9]+)$ ]]; then
+    PORT="${BASH_REMATCH[2]}"
+    NEW_ENDPOINT="$MINIO_IP:$PORT"
+    kubectl patch bucket kratix --type='json' -n flux-system -p="[{\"op\": \"replace\", \"path\": \"/spec/endpoint\", \"value\": \"$NEW_ENDPOINT\"}]" || echo "Failed to patch Bucket resource"
+  else
+    # fallback to port 9000 if parsing fails
+    kubectl patch bucket kratix --type='json' -n flux-system -p="[{\"op\": \"replace\", \"path\": \"/spec/endpoint\", \"value\": \"$MINIO_IP:9000\"}]" || echo "Failed to patch Bucket resource"
+  fi
 else
   echo "Could not determine MinIO service IP. Skipping Bucket patch."
 fi
