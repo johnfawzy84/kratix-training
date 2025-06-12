@@ -8,6 +8,10 @@ This guide will help you set up your environment for the Kratix workshop, follow
 
     `newgrp docker`{{exec}}
 
+    and install `kind` and `kubectl`
+
+    `brew install kind kubectl`{{exec}}
+
 1. **Install required kratix environment**
 
     The Kratix repository contains all the configuration files, scripts, and resources required for the workshop. Cloning it locally allows you to access and modify these files as needed.
