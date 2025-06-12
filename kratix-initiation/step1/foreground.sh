@@ -13,7 +13,7 @@ if ! command -v docker &> /dev/null; then
     exit 1
 fi
 echo "Docker installed successfully."
-
+chmod +r /etc/kubernetes/admin.conf # Ensure the Kubernetes admin config file is readable
 # Create a new user 'kratixuser' if it doesn't exist
 if ! id "kratixuser" &>/dev/null; then
     useradd -m -s /bin/bash kratixuser
@@ -30,4 +30,5 @@ su - kratixuser
 mkdir /home/kratixuser/homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C /home/kratixuser/homebrew
 echo 'export PATH="$HOME/homebrew/bin:$PATH"' >> /home/kratixuser/.bashrc
 export PATH="$HOME/homebrew/bin:$PATH"
+export KUBECONFIG=/etc/kubernetes/admin.conf
 sudo usermod -aG docker kratixuser

@@ -19,7 +19,7 @@ This guide will help you set up your environment for the Kratix workshop, follow
 
     Installing these tools ensures you have all the utilities needed for the workshop.
 
-    `brew install kind kubectl yq minio-mc k9s`{{exec}}
+    `brew install kind yq minio-mc k9s`{{exec}}
 
 2. **Clone the Kratix repository**
 
