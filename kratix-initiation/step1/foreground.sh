@@ -14,6 +14,7 @@ if ! command -v docker &> /dev/null; then
 fi
 echo "Docker installed successfully."
 chmod +r /etc/kubernetes/admin.conf # Ensure the Kubernetes admin config file is readable
+chmod a+w /etc/kubernetes/admin.conf
 # Create a new user 'kratixuser' if it doesn't exist
 if ! id "kratixuser" &>/dev/null; then
     useradd -m -s /bin/bash kratixuser
