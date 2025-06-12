@@ -64,7 +64,7 @@ This guide will help you set up your environment for the Kratix workshop, follow
 
     ```sh
     export PLATFORM="kind-platform"
-    export WORKER="kind-worker"
+    export WORKER="kubernetes-admin@kubernetes"
     ```{{exec}}
 
 6. **Install cert-manager on the platform cluster**
