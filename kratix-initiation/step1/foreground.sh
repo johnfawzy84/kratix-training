@@ -55,4 +55,18 @@ kubectl --context $PLATFORM -n flux-system wait --for=condition=Available --time
 kubectl --context $PLATFORM -n flux-system wait --for=condition=Available --timeout=180s deployment/notification-controller
 kubectl --context $PLATFORM -n flux-system wait --for=condition=Available --timeout=180s deployment/source-controller
 echo "Flux system is ready."
+
+# --- Fix MinIO Bucket IP if patch_kind_networking set it incorrectly ---
+
+# Get the correct ClusterIP of the minio service in the default namespace
+MINIO_IP=$(kubectl get svc minio -o jsonpath='{.spec.clusterIP}' || echo "")
+
+if [ -n "$MINIO_IP" ]; then
+  echo "Patching Bucket resource with correct MinIO IP: $MINIO_IP"
+  # Patch the Bucket resource (adjust name/namespace if needed)
+  kubectl patch bucket minio-bucket --type='json' -p="[{\"op\": \"replace\", \"path\": \"/spec/endpoint\", \"value\": \"http://$MINIO_IP:9000\"}]" || echo "Failed to patch Bucket resource"
+else
+  echo "Could not determine MinIO service IP. Skipping Bucket patch."
+fi
+
 touch /tmp/step1finished
