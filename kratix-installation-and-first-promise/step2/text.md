@@ -2,7 +2,7 @@
 
 this is the installation described [here](https://docs.kratix.io/workshop/installing-kratix)
 
-11. install kratix 
+1. install kratix 
 
     ```sh
     kubectl --context $PLATFORM apply --filename https://github.com/syntasso/kratix/releases/latest/download/kratix.yaml
@@ -12,15 +12,15 @@ this is the installation described [here](https://docs.kratix.io/workshop/instal
 
     ```sh
     kubectl --context $PLATFORM get crds | grep kratix
-    ```{{copy}}
+    ```{{exec}}{{copy}}
 
     you can check the deployment of kratix platform with the following command: 
 
     ```sh
     kubectl --context $PLATFORM get deployments --namespace kratix-platform-system
-    ```{{copy}}
+    ```{{exec}}{{copy}}
 
-12. create state store 
+2. create state store 
 
     ```sh
     cat << EOF | kubectl --context $PLATFORM apply -f -
@@ -57,14 +57,14 @@ this is the installation described [here](https://docs.kratix.io/workshop/instal
     ```{{exec}}
 
 
-14. check
+4. check
 
     ```sh
     kubectl --context $WORKER get namespace kratix-worker-system
     ```{{exec}}
 
 
-15. Extra checks : 
+5. Extra checks : 
     
     - open `k9s` in the console
     - check the health/logs of `source-control` deployment in `flux-system` namespace
@@ -72,6 +72,5 @@ this is the installation described [here](https://docs.kratix.io/workshop/instal
     - check the health/logs of `buckets` resources
     - check the health/logs of `kustomization` resources
 
-
-    !!!INFO!!!
-    CONGRATULATIONS! now you have Kratix up and running, let's install some promises!
+> **INFO:**  
+> CONGRATULATIONS! now you have Kratix up and running, let's install some promises!
