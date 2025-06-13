@@ -16,6 +16,20 @@ This guide will help you set up your environment for the Kratix workshop, follow
 
     Open `k9s` (a terminal UI for managing Kubernetes clusters) and navigate to the `promises` resource in your Platform cluster. Check that the Jenkins Promise appears in the list and its status is `Available`. This confirms that the Promise has been successfully registered.
 
+    Or you can run the following commands : 
+
+    ```sh
+    kubectl --context $PLATFORM get promises
+    ```{{exec}}
+
+    this will list all the installed promises with their status
+
+    ```sh
+    kubectl --context $PLATFORM get promise jenkins -o yaml
+    ```{{exec}}
+
+    this command will show you the JSON manifest of this promise.
+
 3. **Check the Jenkins Operator in the Worker Cluster**
 
     The Jenkins Promise will deploy a Jenkins Operator to your Worker cluster. To verify this, run:
@@ -39,7 +53,7 @@ This guide will help you set up your environment for the Kratix workshop, follow
             namespace: default
         spec:
             env: dev
-        EOF
+    EOF
     ```{{exec}}
 
     This command creates a new Jenkins resource named `example` in the `default` namespace, with the environment set to `dev`.

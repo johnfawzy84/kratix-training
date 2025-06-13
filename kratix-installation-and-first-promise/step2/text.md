@@ -12,13 +12,13 @@ this is the installation described [here](https://docs.kratix.io/workshop/instal
 
     ```sh
     kubectl --context $PLATFORM get crds | grep kratix
-    ```{{exec}}{{copy}}
+    ```{{exec}}
 
     you can check the deployment of kratix platform with the following command: 
 
     ```sh
     kubectl --context $PLATFORM get deployments --namespace kratix-platform-system
-    ```{{exec}}{{copy}}
+    ```{{exec}}
 
 2. create state store 
 
