@@ -4,28 +4,11 @@ This guide summarizes the automated steps performed by the setup script to prepa
 
 ---
 
-### 1. Docker Verification
-
-The script first checks if [Docker](https://www.docker.com/) is installed and available. Docker is required to run containerized workloads and Kubernetes clusters via Kind.
-
-- **Motivation:** Ensures the environment can run containers and Kubernetes clusters.
-- **Reference:** [Install Docker](https://docs.docker.com/get-docker/)
-
----
-
-### 2. Kubernetes Admin Configuration
-
-The script adjusts permissions on `/etc/kubernetes/admin.conf` to ensure it is readable and writable. This file contains credentials and configuration for accessing the Kubernetes cluster as an admin.
-
-- **Motivation:** Allows all necessary users and processes to interact with the Kubernetes cluster.
-
----
-
-### 3. User Setup: `kratixuser`
+### 1. User Setup: `kratixuser`
 
 A dedicated user `kratixuser` is created (if it does not exist) and added to both the `sudo` and `docker` groups.
 
-- **Motivation:** Provides a non-root user with the necessary privileges to run Docker and administrative commands without `sudo` password prompts.
+- **Motivation:** Provides a non-root user with the necessary privileges to run Docker and administrative commands without `sudo` password prompts, this is needed for brew to install the needed tools. 
 - **Reference:** [Linux User Management](https://www.cyberciti.biz/faq/howto-add-remove-user-account/)
 
 ---
@@ -65,7 +48,7 @@ The script sets environment variables for Kubernetes contexts:
 - `PLATFORM`: The admin context for the platform cluster.
 - `WORKER`: The admin context for the worker cluster.
 
-- **Motivation:** Simplifies referencing the correct Kubernetes clusters in subsequent commands.
+- **Motivation:** Simplifies referencing the correct Kubernetes clusters in subsequent commands. both env. variables are set for the same cluster for the lack of resources in the training enviroment. 
 
 ---
 
@@ -73,7 +56,7 @@ The script sets environment variables for Kubernetes contexts:
 
 [cert-manager](https://cert-manager.io/) is installed on the platform cluster to automate the management and issuance of TLS certificates.
 
-- **Motivation:** Enables secure communication and certificate management for Kratix components.
+- **Motivation:** Enables secure communication and certificate management for Kratix components. This is needed for Kratix installation. 
 
 ---
 
@@ -81,7 +64,7 @@ The script sets environment variables for Kubernetes contexts:
 
 [MinIO](https://min.io/) is deployed on the platform cluster to provide S3-compatible object storage for Kratix.
 
-- **Motivation:** Supplies a storage backend for Kratix artifacts and state.
+- **Motivation:** Supplies a storage backend for Kratix artifacts and state. This will work as a state-store between the Platform cluster and worker cluster. 
 
 ---
 
@@ -89,7 +72,7 @@ The script sets environment variables for Kubernetes contexts:
 
 The script runs the Kratix-provided `install-gitops` script to set up [Flux](https://fluxcd.io/) and other GitOps tooling on the worker cluster.
 
-- **Motivation:** Enables automated deployment and management of resources via GitOps practices.
+- **Motivation:** Enables automated deployment and management of resources via GitOps practices. This will add everything needed to configure flux in the worker cluster so that it can fetch the manifests from MinIO state-store and apply them in the worker cluster. 
 
 ---
 
