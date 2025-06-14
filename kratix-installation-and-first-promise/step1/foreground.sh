@@ -68,4 +68,6 @@ else
   echo "Could not determine MinIO service IP. Skipping Bucket patch."
 fi
 
+curl -sf https://labs.iximiuz.com/cli/install.sh | sh
+
 touch /tmp/step1finished
